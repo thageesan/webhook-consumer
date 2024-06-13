@@ -1,0 +1,30 @@
+version: '3.7'
+
+# Shared environment variables for our services in this application.
+x-shared-environment: &environment
+  # DATABASE_URL: postgres://postgres:password@database:5432/postgres
+  DEBUG: 1
+
+x-shared-build: &build
+  context: .
+  args:
+    # Used by the Python package manager to decide whether to install dev deps.
+    - BUILD_ENVIRONMENT=development
+
+# Volume mounts shared by all server services in this application.
+x-server-volumes: &server-volumes
+  # This is added to enable hot reloading from the host filesystem, so it's
+  # only enabled for servers (which support hot reloading through nginx),
+  # not for other services such as workers.
+  - ./:/app:delegated
+
+services:
+  webhook:
+    build: *build
+    command: fastapi run main.py
+    environment:
+      <<: *environment
+    volumes: *server-volumes
+    restart: unless-stopped
+    ports:
+      - 8000:8000

@@ -1,0 +1,37 @@
+[tool.poetry]
+name = "webhook"
+version = "1.1.0"
+description = "Service for onboarding businesses onto financial products at Wave."
+authors = []
+
+[[tool.poetry.source]]
+name = "gemfury"
+url = "https://pypi.fury.io/wave/"
+
+[tool.poetry.dependencies]
+python = "3.11.*"
+
+# Fast API packages
+fastapi = ">=0.111.0"
+uvicorn = ">=0.29.0"
+python-multipart = ">=0.0.9"
+passlib = ">=1.7.4"
+python-jose = ">=3.3.0"
+
+[build-system]
+requires = ["poetry>=1.0"]
+build-backend = "poetry.masonry.api"
+
+[tool.black]
+line-length = 90
+target-version = ["py311"]
+include = '\.pyi?$'
+exclude = '''
+/(
+  | \.git
+  | \.mypy_cache
+  | \.vscode
+  | \.ipython
+  | migrations
+)/
+'''
